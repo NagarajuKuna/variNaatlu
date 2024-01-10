@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            background-image: url("moon/HD-wallpaper-paddy-crop-harvest.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        .language{
+            text-align: right;
+        }
+        .container{
+            margin:150px 35%;
+            text-align:left;
+            align-items: left;
+            background-color: rgb(0,0,0,0.5);
+            color:white;
+        }
+        td{
+            padding:5px;
+        }
+        @media only Screen and (max-width:400px){
+            .container{
+                margin:150px 0px;
+            }
+            input{
+                width:70px;
+            }
+            input[type="button"]{
+                width:60px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="language">
+        <select name="language" id="language" onchange="changeLang()" value="Language">
+            <option value="Language">Language</option>
+            <option value="english" id="english">English</option>
+            <option value="telugu" id="telugu">Telugu</option>
+        </select>
+    </div>
+    <div class="container">
+        <table>
+            <tr>
+                <td><lable for="PricePerAcre" id="PricePerAcreLable">Price per acre </lable></td>
+                <td><input type="text" name="PricePerAcre" id="PricePerAcre" onchange="eachMoney()" value="0">
+                    <input type="button" value="Fix" onclick="makeFix()" id="Fix"></td>
+            </tr>
+            <tr>
+                <td><lable for="Extra" id="ExtraLable">Extra</lable></td>
+                <td><input type="text" name="Extra" id="Extra" onchange="eachMoney()" readonly value="0">
+                    <input type="button" value="change" onclick="makeFixExtra()" id="FixExtra"></td>
+            </tr>
+            <tr>
+                <td><lable for="noOfWorkers" id="WorkersLable">Workers </lable></td>
+                <td><input type="text" name="noOfWorkers" id="noOfWorkers" oninput="eachMoney()" readonly value="0"></td>
+            </tr>
+            <tr>
+                <td><lable for="workDone" id="WorkDoneLable">Work Done </lable></td>
+                <td><input type="text" name="workDone" id="workDone" oninput="eachMoney()" value="0" readonly></td>
+            </tr>
+            <tr>
+                <td><lable for="eachMoney" id="EachMoneyLable">Money For Each Person </lable></td>
+                <td><input type="text" name="eachMoney" id="MoneyPerEach" readonly value="0" style="border: 0px;"></td>
+            </tr>
+        </table>
+        
+        
+        <br><br>
+        
+    </div>
+       <script>
+        function eachMoney(){
+            var PricePerAcre=parseInt(document.getElementById("PricePerAcre").value,10);
+            var PricePerWork=PricePerAcre/10;
+            var noOfWorkers=parseInt(document.getElementById("noOfWorkers").value,10);
+            var workDone=parseInt(document.getElementById("workDone").value,10);
+            var extra=parseInt(document.getElementById("Extra").value,10);
+            if(PricePerAcre>0 && noOfWorkers>0 && workDone>0){
+                var eachMoneyValue=((PricePerWork*workDone)+extra)/noOfWorkers;
+                document.getElementById("MoneyPerEach").value=eachMoneyValue-(eachMoneyValue%5);
+            }
+        }
+        var i=0;
+        function makeFix(){
+            var PricePerAcre=document.getElementById("PricePerAcre");
+            var FixButton=document.getElementById("Fix");
+            var noOfWorkers=document.getElementById("noOfWorkers");
+            var workDone=document.getElementById("workDone");
+            if(i==0){
+                PricePerAcre.setAttribute("readOnly","true");
+                FixButton.value="Change";
+                PricePerAcre.style.border="0px";
+                noOfWorkers.removeAttribute("readOnly");
+                workDone.removeAttribute("readOnly");
+                i=1;
+            }
+            else{
+                PricePerAcre.removeAttribute("readOnly");
+                FixButton.value="Fix";
+                PricePerAcre.style.border="1px solid grey";
+                PricePerAcre.style.borderRadius="2px";
+                noOfWorkers.setAttribute("readOnly", "true");
+                workDone.setAttribute("readOnly","true");
+                i=0;
+            }
+        }
+        var j=0;
+        function makeFixExtra(){
+            var Extra=document.getElementById("Extra");
+            var FixButton=document.getElementById("FixExtra");
+            if(j==1){
+                FixButton.value="Change";
+                Extra.setAttribute("readOnly","true");
+                Extra.style.border="0px";
+                j=0;
+            }
+            else{
+                FixButton.value="Fix";
+                Extra.removeAttribute("readOnly");
+                Extra.style.border="1px solid grey";
+                Extra.style.borderRadius="2px";
+                j=1;
+            }
+            
+        }
+        function changeLang(){
+            var language=document.getElementById("language").value;
+            if(language==="telugu"){
+                document.getElementById("PricePerAcreLable").innerHTML="ఎకరాకు ధర";
+                document.getElementById("ExtraLable").innerHTML="ఎగస్ట్రా";
+                document.getElementById("WorkersLable").innerHTML="వ్యక్తుల సంఖ్య";
+                document.getElementById("WorkDoneLable").innerHTML="కుంచాలు";
+                document.getElementById("EachMoneyLable").innerHTML="ప్రతి వ్యక్తికి డబ్బు";
+                document.getElementById("telugu").innerHTML="తెలుగు";
+                document.getElementById("english").innerHTML="ఆంగ్లం";
+            }
+            else{
+                document.getElementById("PricePerAcreLable").innerHTML="Price per acre";
+                document.getElementById("ExtraLable").innerHTML="Extra";
+                document.getElementById("WorkersLable").innerHTML="Workers";
+                document.getElementById("WorkDoneLable").innerHTML="Work Done";
+                document.getElementById("EachMoneyLable").innerHTML="Money For Each Person";
+                document.getElementById("telugu").innerHTML="Telugu";
+                document.getElementById("english").innerHTML="English";
+            }
+        }
+    </script>
+</body>
+</html>
